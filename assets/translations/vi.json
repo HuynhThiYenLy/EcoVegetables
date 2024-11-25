@@ -1,0 +1,25 @@
+{
+  "button": {
+    "login": "Đăng nhập",
+    "cancel": "Hủy",
+    "register": "Đăng ký",
+    "loginGG": "Đăng nhập với Google"
+  },
+  "buttonText": {
+    "forgot_password": "Quên mật khẩu"
+  },
+  "error": {
+    "email_invalid": "Email không hợp lệ",
+    "input_required": "Vui lòng nhập đủ thông tin"
+  },
+  "label": {
+    "fullname": "Họ tên",
+    "email": "Email",
+    "phone": "Số điện thoại",
+    "password": "Mật khẩu",
+    "rePassword": "Xác nhận mật khẩu"
+  },
+  "text": {
+    "or": "_____ Hoặc _____"
+  }
+}

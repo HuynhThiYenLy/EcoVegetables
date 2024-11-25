@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
             style: TextStyle(
               color: AppTheme.text,
               fontWeight: FontWeight.bold,
-              fontSize: AppSize.sp16,
+              fontSize: AppSize.sp16, 
             ),
           ),
           const SizedBox(height: AppSize.sp10),

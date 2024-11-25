@@ -1,19 +1,33 @@
+import 'package:ecovegetables_app/bloc/register/register_bloc.dart';
+import 'package:ecovegetables_app/bloc/register/register_event.dart';
+import 'package:ecovegetables_app/bloc/register/register_state.dart';
 import 'package:ecovegetables_app/styles/app_image.dart';
 import 'package:ecovegetables_app/styles/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:ecovegetables_app/styles/app_size.dart';
 
 class RegisterScreen extends StatelessWidget {
   final TabController tabController;
 
-  const RegisterScreen({Key? key, required this.tabController})
-      : super(key: key);
+// Nhập sẵn
+  final TextEditingController fullnameController =
+      TextEditingController(text: "YenLy");
+  final TextEditingController emailController =
+      TextEditingController(text: "yenlyhuynhthi991@gmail.com");
+  final TextEditingController phoneController =
+      TextEditingController(text: "0354757122");
+  final TextEditingController passwordController =
+      TextEditingController(text: "yenly123");
+  final TextEditingController rePasswordController =
+      TextEditingController(text: "yenly123");
+
+  RegisterScreen({Key? key, required this.tabController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      // Bao bọc toàn bộ giao diện trong SingleChildScrollView để cuộn khi bàn phím xuất hiện
       child: Padding(
         padding: const EdgeInsets.all(AppSize.sp16),
         child: Column(
@@ -27,8 +41,9 @@ class RegisterScreen extends StatelessWidget {
                   fontSize: AppSize.sp16),
             ),
             const SizedBox(height: AppSize.sp10),
-            const TextField(
-              decoration: InputDecoration(
+            TextField(
+              controller: fullnameController,
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(AppSize.sp12)),
                 ),
@@ -43,7 +58,8 @@ class RegisterScreen extends StatelessWidget {
                   fontSize: AppSize.sp16),
             ),
             const SizedBox(height: AppSize.sp10),
-            const TextField(
+            TextField(
+              controller: emailController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(AppSize.sp12)),
@@ -59,7 +75,8 @@ class RegisterScreen extends StatelessWidget {
                   fontSize: AppSize.sp16),
             ),
             const SizedBox(height: AppSize.sp10),
-            const TextField(
+            TextField(
+              controller: phoneController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(AppSize.sp12)),
@@ -77,7 +94,8 @@ class RegisterScreen extends StatelessWidget {
                   fontSize: AppSize.sp16),
             ),
             const SizedBox(height: AppSize.sp10),
-            const TextField(
+            TextField(
+              controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -94,7 +112,8 @@ class RegisterScreen extends StatelessWidget {
                   fontSize: AppSize.sp16),
             ),
             const SizedBox(height: AppSize.sp10),
-            const TextField(
+            TextField(
+              controller: rePasswordController,
               obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(

@@ -1,5 +1,3 @@
-// lib/blocs/login_bloc/login_event.dart
-
 import 'package:equatable/equatable.dart';
 
 abstract class LoginEvent extends Equatable {

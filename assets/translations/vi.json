@@ -3,10 +3,12 @@
     "login": "Đăng nhập",
     "cancel": "Hủy",
     "register": "Đăng ký",
-    "loginGG": "Đăng nhập với Google"
+    "loginGG": "Đăng nhập với Google",
+    "otpVerify": "xác minh OTP"
   },
   "buttonText": {
-    "forgot_password": "Quên mật khẩu"
+    "forgot_password": "Quên mật khẩu",
+    "reSent": "Gửi lại mã"
   },
   "error": {
     "email_invalid": "Email không hợp lệ",
@@ -20,6 +22,6 @@
     "rePassword": "Xác nhận mật khẩu"
   },
   "text": {
-    "or": "_____ Hoặc _____"
+    "or": " Hoặc "
   }
 }

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:ecovegetables_app/bloc/apiConfig/api_constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'login_event.dart';
@@ -40,7 +41,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Future<http.Response> _login(String email, String password) {
     print("LoginBloc: Sending request to server with email: $email");
     return http.post(
-      Uri.parse('http://192.168.215.1:5217/user/login'),
+      Uri.parse('${ApiConstants.baseUrl}${ApiConstants.loginEndpoint}'),
       headers: {'Content-Type': 'application/json'},
       body: json.encode({'email': email, 'password': password}),
     );

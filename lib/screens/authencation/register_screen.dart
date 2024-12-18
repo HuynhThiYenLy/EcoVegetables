@@ -1,21 +1,24 @@
 import 'package:ecovegetables_app/bloc/register/register_bloc.dart';
-import 'package:ecovegetables_app/bloc/register/register_event.dart';
 import 'package:ecovegetables_app/bloc/register/register_state.dart';
-import 'package:ecovegetables_app/styles/app_image.dart';
+import 'package:ecovegetables_app/logic/register_logic.dart';
 import 'package:ecovegetables_app/styles/app_theme.dart';
+import 'package:ecovegetables_app/widgets/custom_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:ecovegetables_app/styles/app_size.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterScreen extends StatelessWidget {
   final TabController tabController;
 
-// Nhập sẵn
+  // Khai báo GlobalKey cho form
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  // MARK: data Field mẫu
   final TextEditingController fullnameController =
       TextEditingController(text: "YenLy");
   final TextEditingController emailController =
-      TextEditingController(text: "yenlyhuynhthi991@gmail.com");
+      TextEditingController(text: "lyhtyps27387@fpt.edu.vn");
   final TextEditingController phoneController =
       TextEditingController(text: "0354757122");
   final TextEditingController passwordController =
@@ -30,146 +33,144 @@ class RegisterScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(AppSize.sp16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              'label.fullname'.tr(),
-              style: TextStyle(
-                  color: AppTheme.text,
-                  fontWeight: FontWeight.bold,
-                  fontSize: AppSize.sp16),
-            ),
-            const SizedBox(height: AppSize.sp10),
-            TextField(
-              controller: fullnameController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(AppSize.sp12)),
-                ),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // MARK: fullname
+              CustomLabel(text: 'label.fullname'.tr()),
+              const SizedBox(height: AppSize.sp10),
+              CustomTextField(
+                controller: fullnameController,
+                hintText: 'label.fullname'.tr(),
               ),
-            ),
-            const SizedBox(height: AppSize.sp10),
-            Text(
-              'label.email'.tr(),
-              style: TextStyle(
-                  color: AppTheme.text,
-                  fontWeight: FontWeight.bold,
-                  fontSize: AppSize.sp16),
-            ),
-            const SizedBox(height: AppSize.sp10),
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(AppSize.sp12)),
-                ),
-              ),
-            ),
-            const SizedBox(height: AppSize.sp10),
-            Text(
-              'label.phone'.tr(),
-              style: TextStyle(
-                  color: AppTheme.text,
-                  fontWeight: FontWeight.bold,
-                  fontSize: AppSize.sp16),
-            ),
-            const SizedBox(height: AppSize.sp10),
-            TextField(
-              controller: phoneController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(AppSize.sp12)),
-                ),
-              ),
-            ),
-            const SizedBox(height: AppSize.sp20),
+              const SizedBox(height: AppSize.sp10),
 
-            // TextField Password
-            Text(
-              'label.password'.tr(),
-              style: TextStyle(
-                  color: AppTheme.text,
-                  fontWeight: FontWeight.bold,
-                  fontSize: AppSize.sp16),
-            ),
-            const SizedBox(height: AppSize.sp10),
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(AppSize.sp12)),
-                ),
+              // MARK: email
+              CustomLabel(text: 'label.email'.tr()),
+              const SizedBox(height: AppSize.sp10),
+              CustomTextField(
+                controller: emailController,
+                hintText: 'label.email'.tr(),
               ),
-            ),
-            const SizedBox(height: AppSize.sp10),
-            Text(
-              'label.rePassword'.tr(),
-              style: TextStyle(
-                  color: AppTheme.text,
-                  fontWeight: FontWeight.bold,
-                  fontSize: AppSize.sp16),
-            ),
-            const SizedBox(height: AppSize.sp10),
-            TextField(
-              controller: rePasswordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(AppSize.sp12)),
-                ),
+              const SizedBox(height: AppSize.sp10),
+
+              // MARK: phone
+              CustomLabel(text: 'label.phone'.tr()),
+              const SizedBox(height: AppSize.sp10),
+              CustomTextField(
+                controller: phoneController,
+                hintText: 'label.phone'.tr(),
               ),
-            ),
+              const SizedBox(height: AppSize.sp20),
 
-            const SizedBox(height: AppSize.sp20),
+              // MARK: Password
+              CustomLabel(text: 'label.password'.tr()),
+              const SizedBox(height: AppSize.sp10),
+              CustomTextField(
+                controller: passwordController,
+                hintText: 'label.password'.tr(),
+                obscureText: true,
+              ),
+              const SizedBox(height: AppSize.sp10),
 
-            // Các nút Đăng nhập và Hủy
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      print("Hủy!");
-                    },
-                    child: Text(
-                      'button.cancel'.tr(),
-                      style: TextStyle(fontSize: AppSize.sp16),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primary,
-                      foregroundColor: AppTheme.textButton,
-                      padding: EdgeInsets.symmetric(vertical: AppSize.sp16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppSize.sp12),
-                      ),
+              // MARK: re-Pass
+              CustomLabel(text: 'label.rePassword'.tr()),
+              const SizedBox(height: AppSize.sp10),
+              CustomTextField(
+                controller: rePasswordController,
+                hintText: 'label.rePassword'.tr(),
+                obscureText: true,
+              ),
+              const SizedBox(height: AppSize.sp20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    // MARK: Cancel
+                    child: CustomElevatedButton(
+                      text: 'button.cancel'.tr(),
+                      onPressed: () {
+                        RegisterScreenLogic.handleCancel(
+                          formKey: _formKey,
+                          fullnameController: fullnameController,
+                          emailController: emailController,
+                          phoneController: phoneController,
+                          passwordController: passwordController,
+                          rePasswordController: rePasswordController,
+                          context: context,
+                        );
+                      },
+                      color: AppTheme.primary,
                     ),
                   ),
-                ),
-                const SizedBox(width: AppSize.sp10),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      print("Đăng nhập!");
-                    },
-                    child: Text(
-                      'button.register'.tr(),
-                      style: TextStyle(fontSize: AppSize.sp16),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.button,
-                      foregroundColor: AppTheme.textButton,
-                      padding: EdgeInsets.symmetric(vertical: AppSize.sp16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppSize.sp12),
-                      ),
+                  const SizedBox(width: AppSize.sp10),
+
+                  // MARK: register
+                  Expanded(
+                    child: BlocConsumer<RegisterBloc, RegisterState>(
+                      listener: (context, state) {
+                        RegisterScreenLogic.handleBlocListener(
+                          context: context,
+                          state: state,
+                          tabController: tabController,
+                        );
+                      },
+                      builder: (context, state) {
+                        if (state is RegisterLoading) {
+                          return RegisterScreenLogic.handleLoadingState();
+                        }
+                        return CustomElevatedButton(
+                          text: 'button.register'.tr(),
+                          onPressed: () {
+                            RegisterScreenLogic.handleRegister(
+                              formKey: _formKey,
+                              fullnameController: fullnameController,
+                              emailController: emailController,
+                              phoneController: phoneController,
+                              passwordController: passwordController,
+                              rePasswordController: rePasswordController,
+                              context: context,
+                            );
+                          },
+                          color: AppTheme.button,
+                        );
+                      },
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+              const SizedBox(height: AppSize.sp20),
+
+              // MARK: -- OR --
+              Row(
+                children: [
+                  Expanded(
+                    child: Divider(
+                      color: AppTheme.grey,
+                      thickness: AppSize.sp2,
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: AppSize.sp8),
+                    child: Text(
+                      'text.or'.tr(),
+                      style: TextStyle(fontSize: AppSize.sp16),
+                    ),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      color: AppTheme.grey,
+                      thickness: AppSize.sp2,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

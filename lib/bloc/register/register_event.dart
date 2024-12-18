@@ -13,13 +13,8 @@ class RegisterButtonPressed extends RegisterEvent {
   final String phone;
   final String password;
 
-  const RegisterButtonPressed({
-    required this.email, 
-    required this.password,
-    required this.phone,
-    required this.password
-    });
+  const RegisterButtonPressed({required this.fullname, required this.email, required this.phone, required this.password});
 
   @override
-  List<Object?> get props => [fullname, email, password, password];
+  List<Object?> get props => [fullname, email, phone, password];
 }

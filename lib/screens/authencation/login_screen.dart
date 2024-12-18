@@ -1,154 +1,154 @@
-import 'package:ecovegetables_app/bloc/login/login_event.dart';
 import 'package:ecovegetables_app/bloc/login/login_state.dart';
+import 'package:ecovegetables_app/logic/login_logic.dart';
+import 'package:ecovegetables_app/screens/authencation/verifyOTP_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ecovegetables_app/bloc/login/login_bloc.dart';
-import 'package:ecovegetables_app/styles/app_image.dart';
 import 'package:ecovegetables_app/styles/app_size.dart';
 import 'package:ecovegetables_app/styles/app_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:ecovegetables_app/widgets/custom_widgets.dart'; // Import file custom_widgets.dart
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   final TabController tabController;
 
-  // Tạo controller cho email và password
+  LoginScreen({Key? key, required this.tabController}) : super(key: key);
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  // MARK: data Field mẫu
   final TextEditingController emailController =
       TextEditingController(text: "yenlyhuynhthi991@gmail.com");
   final TextEditingController passwordController =
       TextEditingController(text: "yenly123");
 
-  LoginScreen({Key? key, required this.tabController}) : super(key: key);
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(AppSize.sp16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Email TextField
-          Text(
-            'label.email'.tr(),
-            style: TextStyle(
-              color: AppTheme.text,
-              fontWeight: FontWeight.bold,
-              fontSize: AppSize.sp16, 
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // MARK: email TextField
+            CustomLabel(text: 'label.email'.tr()),
+            const SizedBox(height: AppSize.sp10),
+            CustomTextField(
+              controller: emailController,
+              hintText: 'Vui lòng nhập email',
+              validator: LoginScreenLogic.validateEmail,
             ),
-          ),
-          const SizedBox(height: AppSize.sp10),
-          TextField(
-            controller: emailController, // Gắn controller cho Email
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(AppSize.sp12)),
+            const SizedBox(height: AppSize.sp20),
+
+            // MARK: Pass TextField
+            CustomLabel(text: 'label.password'.tr()),
+            const SizedBox(height: AppSize.sp10),
+            CustomTextField(
+              controller: passwordController,
+              hintText: 'Vui lòng nhập mật khẩu',
+              obscureText: true,
+              validator: LoginScreenLogic.validatePassword,
+            ),
+            const SizedBox(height: AppSize.sp10),
+
+            // MARK: forgotPass btn
+            Container(
+              alignment: Alignment.centerRight,
+              child: CustomTextButton(
+                text: 'buttonText.forgot_password'.tr(),
+                onPressed: () {
+                  print('forgot_password');
+                },
               ),
             ),
-          ),
-          const SizedBox(height: AppSize.sp20),
 
-          // Password TextField
-          Text(
-            'label.password'.tr(),
-            style: TextStyle(
-              color: AppTheme.text,
-              fontWeight: FontWeight.bold,
-              fontSize: AppSize.sp16,
-            ),
-          ),
-          const SizedBox(height: AppSize.sp10),
-          TextField(
-            controller: passwordController, // Gắn controller cho Password
-            obscureText: true,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(AppSize.sp12)),
-              ),
-            ),
-          ),
-          const SizedBox(height: AppSize.sp20),
+            const SizedBox(height: AppSize.sp10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // MARK: cancel btn
+                Expanded(
+                  child: CustomElevatedButton(
+                    text: 'button.cancel'.tr(),
+                    onPressed: () {
+                      LoginScreenLogic.handleCancel(
+                        formKey: _formKey,
+                        emailController: emailController,
+                        passwordController: passwordController,
+                        context: context,
+                      );
+                    },
+                    color: AppTheme.primary,
+                  ),
+                ),
+                const SizedBox(width: AppSize.sp10),
 
-          // Login Buttons
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Cancel Button
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    print("Cancel!");
-                  },
+                // MARK: login btn
+                Expanded(
+                  child: BlocConsumer<LoginBloc, LoginState>(
+                    listener: (context, state) {
+                      LoginScreenLogic.handleBlocListener(
+                        context: context,
+                        state: state,
+                        tabController:
+                            widget.tabController, // widget.chỉ có statefull
+                      );
+                    },
+                    builder: (context, state) {
+                      if (state is LoginLoading) {
+                        return LoginScreenLogic.handleLoadingState();
+                      }
+                      return CustomElevatedButton(
+                        text: 'button.login'.tr(),
+                        onPressed: () {
+                          LoginScreenLogic.handleLogin(
+                            formKey: _formKey,
+                            emailController: emailController,
+                            passwordController: passwordController,
+                            context: context,
+                          );
+                        },
+                        color: AppTheme.button,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: AppSize.sp20),
+
+// MARK: -- OR --
+            Row(
+              children: [
+                Expanded(
+                  child: Divider(
+                    color: AppTheme.grey,
+                    thickness: AppSize.sp2,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AppSize.sp8),
                   child: Text(
-                    'button.cancel'.tr(),
+                    'text.or'.tr(),
                     style: TextStyle(fontSize: AppSize.sp16),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primary,
-                    padding: EdgeInsets.symmetric(vertical: AppSize.sp16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppSize.sp12),
-                    ),
+                ),
+                Expanded(
+                  child: Divider(
+                    color: AppTheme.grey,
+                    thickness: AppSize.sp2,
                   ),
                 ),
-              ),
-              const SizedBox(width: AppSize.sp10),
-
-              // Login Button with BlocConsumer
-              Expanded(
-                child: BlocConsumer<LoginBloc, LoginState>(
-                  listener: (context, state) {
-                    if (state is LoginFailure) {
-                      print(
-                          "LoginScreen: Login failed with error = ${state.error}");
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(state.error)),
-                      );
-                    } else if (state is LoginSuccess) {
-                      print(
-                          "LoginScreen: Login successful - Token = ${state.token}");
-
-                      // Chuyển sang tab đăng ký sau khi đăng nhập thành công
-                      tabController.index = 1; // Chuyển qua Register tab
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is LoginLoading) {
-                      print("LoginScreen: State is LoginLoading");
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    return ElevatedButton(
-                      onPressed: () {
-                        final email = emailController.text;
-                        final password = passwordController.text;
-
-                        print("LoginScreen: Login button pressed");
-                        print(
-                            "LoginScreen: Input Email = $email, Password = $password");
-
-                        context.read<LoginBloc>().add(
-                              LoginButtonPressed(
-                                email: email,
-                                password: password,
-                              ),
-                            );
-                      },
-                      child: Text(
-                        'button.login'.tr(),
-                        style: TextStyle(fontSize: AppSize.sp16),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.button,
-                        padding: EdgeInsets.symmetric(vertical: AppSize.sp16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppSize.sp12),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:ecovegetables_app/bloc/register/register_event.dart';
-import 'package:ecovegetables_app/bloc/register/register_state.dart';
+import 'package:ecovegetables_app/bloc/apiConfig/api_constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'register_event.dart';
+import 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc() : super(RegisterInitial()) {
@@ -19,29 +20,42 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     print("RegisterBloc: State changed to RegisterLoading");
 
     try {
-      final response = await _Register(event.email, event.password);
+      final response = await _register(
+          event.fullname, event.email, event.phone, event.password);
 
       if (response.statusCode == 200) {
+        final data = json.decode(response.body);
         print("RegisterBloc: Server response = ${response.body}");
         emit(RegisterSuccess());
         print("RegisterBloc: State changed to RegisterSuccess");
       } else {
-        print(
-            "RegisterBloc: Register failed with status code = ${response.statusCode}");
-        emit(RegisterFailure(error: 'Invalid credentials'));
+        // Parse lỗi từ server nếu có
+        final errorData = json.decode(response.body);
+        final errorMessage =
+            errorData['message'] ?? 'Đã xảy ra lỗi trong quá trình đăng ký';
+        print("RegisterBloc: Server error response = $errorMessage");
+
+        emit(RegisterFailure(error: errorMessage));
+        print("RegisterBloc: State changed to RegisterFailure");
       }
     } catch (e) {
       print("RegisterBloc: Exception occurred - $e");
-      emit(RegisterFailure(error: 'An error occurred'));
+      emit(RegisterFailure(error: 'Có lỗi xảy ra, vui lòng thử lại sau.'));
     }
   }
 
-  Future<http.Response> _Register(String email, String password) {
+  Future<http.Response> _register(
+      String fullname, String email, String phone, String password) {
     print("RegisterBloc: Sending request to server with email: $email");
     return http.post(
-      Uri.parse('http://192.168.215.1:5217/user/Register'),
+      Uri.parse('${ApiConstants.baseUrl}${ApiConstants.registerEndpoint}'),
       headers: {'Content-Type': 'application/json'},
-      body: json.encode({'email': email, 'password': password}),
+      body: json.encode({
+        'fullname': fullname,
+        'email': email,
+        'phone': phone,
+        'password': password
+      }),
     );
   }
 }

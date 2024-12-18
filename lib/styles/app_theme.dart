@@ -15,71 +15,96 @@ class AppTheme {
   static const Color secondary = Color(0xFFD60059);
   static const Color text = Colors.black;
   static const Color green = Color(0xFF007B08);
+  static const Color grey = Colors.grey;
 
+  // /// Theme sáng (Light Theme)
   // static ThemeData lightTheme() {
   //   return ThemeData(
   //     brightness: Brightness.light,
-  //     scaffoldBackgroundColor: backgroundColor,
+  //     scaffoldBackgroundColor: background,
+  //     primaryColor: primary,
+  //     cardColor: error,
   //     textTheme: const TextTheme(
   //       displayLarge: TextStyle(
-  //           fontSize: 32.0, fontWeight: FontWeight.bold, color: textColor),
-  //       bodyLarge: TextStyle(fontSize: 16.0, color: textColor),
-  //       bodyMedium: TextStyle(fontSize: 14.0, color: textColor),
+  //         fontSize: 32.0,
+  //         fontWeight: FontWeight.bold,
+  //         color: Colors.black,
+  //       ),
+  //       bodyLarge: TextStyle(
+  //         fontSize: 16.0,
+  //         color: Colors.black,
+  //       ),
+  //       bodyMedium: TextStyle(
+  //         fontSize: 14.0,
+  //         color: Colors.black,
+  //       ),
   //     ),
   //     appBarTheme: const AppBarTheme(
-  //       backgroundColor: primaryColor,
+  //       backgroundColor: primary,
   //       foregroundColor: Colors.white,
   //       elevation: 0,
   //     ),
   //     elevatedButtonTheme: ElevatedButtonThemeData(
   //       style: ElevatedButton.styleFrom(
-  //         backgroundColor: buttonColor,
+  //         backgroundColor: button,
   //         foregroundColor: Colors.white,
   //       ),
   //     ),
-  //     colorScheme: const ColorScheme.light(
-  //       primary: primaryColor,
-  //       secondary: secondaryColor,
-  //       background: backgroundColor,
-  //       error: errorColor,
-  //     ),
   //     snackBarTheme: const SnackBarThemeData(
-  //       backgroundColor: transparentSnackbarColor,
+  //       backgroundColor: transparentSnackbar,
   //       contentTextStyle: TextStyle(color: Colors.grey),
+  //     ),
+  //     colorScheme: const ColorScheme.light(
+  //       primary: primary,
+  //       secondary: secondary,
+  //       background: background,
+  //       error: error,
   //     ),
   //   );
   // }
 
+  // /// Theme tối (Dark Theme)
   // static ThemeData darkTheme() {
   //   return ThemeData(
   //     brightness: Brightness.dark,
   //     scaffoldBackgroundColor: Colors.black,
+  //     primaryColor: primary,
+  //     cardColor: error,
   //     textTheme: const TextTheme(
   //       displayLarge: TextStyle(
-  //           fontSize: 32.0, fontWeight: FontWeight.bold, color: Colors.white),
-  //       bodyLarge: TextStyle(fontSize: 16.0, color: Colors.white),
-  //       bodyMedium: TextStyle(fontSize: 14.0, color: Colors.white),
+  //         fontSize: 32.0,
+  //         fontWeight: FontWeight.bold,
+  //         color: Colors.white,
+  //       ),
+  //       bodyLarge: TextStyle(
+  //         fontSize: 16.0,
+  //         color: Colors.white,
+  //       ),
+  //       bodyMedium: TextStyle(
+  //         fontSize: 14.0,
+  //         color: Colors.white,
+  //       ),
   //     ),
   //     appBarTheme: const AppBarTheme(
-  //       backgroundColor: primaryColor,
+  //       backgroundColor: primary,
   //       foregroundColor: Colors.white,
   //       elevation: 0,
   //     ),
   //     elevatedButtonTheme: ElevatedButtonThemeData(
   //       style: ElevatedButton.styleFrom(
-  //         backgroundColor: buttonColor,
+  //         backgroundColor: button,
   //         foregroundColor: Colors.white,
   //       ),
   //     ),
-  //     colorScheme: const ColorScheme.dark(
-  //       primary: primaryColor,
-  //       secondary: secondaryColor,
-  //       background: Colors.black,
-  //       error: errorColor,
-  //     ),
   //     snackBarTheme: const SnackBarThemeData(
-  //       backgroundColor: transparentSnackbarColor,
+  //       backgroundColor: transparentSnackbar,
   //       contentTextStyle: TextStyle(color: Colors.grey),
+  //     ),
+  //     colorScheme: const ColorScheme.dark(
+  //       primary: primary,
+  //       secondary: secondary,
+  //       background: Colors.black,
+  //       error: error,
   //     ),
   //   );
   // }

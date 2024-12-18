@@ -1,3 +1,4 @@
+import 'package:ecovegetables_app/bloc/register/register_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ecovegetables_app/bloc/login/login_bloc.dart';
@@ -26,8 +27,11 @@ class _MainTabScreenState extends State<MainTabScreen>
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => LoginBloc(), // Cung cấp LoginBloc tại đây
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => LoginBloc()),
+        BlocProvider(create: (_) => RegisterBloc()),
+      ],
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(AppSize.sp150),
@@ -35,8 +39,8 @@ class _MainTabScreenState extends State<MainTabScreen>
             flexibleSpace: Center(
               child: Image.network(
                 AppImage.logo,
-                width: AppSize.sp250,
-                height: AppSize.sp250,
+                width: AppSize.sp200,
+                height: AppSize.sp180,
               ),
             ),
             backgroundColor: const Color.fromARGB(255, 62, 144, 65),

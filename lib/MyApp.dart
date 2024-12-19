@@ -1,3 +1,4 @@
+import 'package:ecovegetables_app/screens/authencation/login_screen.dart';
 import 'package:ecovegetables_app/screens/authencation/mainTab_screen.dart';
 import 'package:ecovegetables_app/screens/authencation/verifyOTP_screen.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'EcoVegetables',
-      home: SplashScreen(),
-      // home: VerifyOTPScreen(),
+      // home: SplashScreen(),
+      home: MainTabScreen(),
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,

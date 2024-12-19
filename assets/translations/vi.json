@@ -22,6 +22,7 @@
     "rePassword": "Xác nhận mật khẩu"
   },
   "text": {
-    "or": " Hoặc "
+    "or": " Hoặc ",
+    "otpVerify": "Nhập mã OTP được gửi đến email của bạn"
   }
 }

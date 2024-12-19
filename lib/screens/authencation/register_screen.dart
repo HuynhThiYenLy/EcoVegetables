@@ -1,12 +1,14 @@
 import 'package:ecovegetables_app/bloc/register/register_bloc.dart';
 import 'package:ecovegetables_app/bloc/register/register_state.dart';
 import 'package:ecovegetables_app/logic/register_logic.dart';
+import 'package:ecovegetables_app/styles/app_image.dart';
 import 'package:ecovegetables_app/styles/app_theme.dart';
 import 'package:ecovegetables_app/widgets/custom_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:ecovegetables_app/styles/app_size.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RegisterScreen extends StatelessWidget {
   final TabController tabController;
@@ -45,7 +47,7 @@ class RegisterScreen extends StatelessWidget {
                 controller: fullnameController,
                 hintText: 'label.fullname'.tr(),
               ),
-              const SizedBox(height: AppSize.sp10),
+              const SizedBox(height: AppSize.sp20),
 
               // MARK: email
               CustomLabel(text: 'label.email'.tr()),
@@ -54,7 +56,7 @@ class RegisterScreen extends StatelessWidget {
                 controller: emailController,
                 hintText: 'label.email'.tr(),
               ),
-              const SizedBox(height: AppSize.sp10),
+              const SizedBox(height: AppSize.sp20),
 
               // MARK: phone
               CustomLabel(text: 'label.phone'.tr()),
@@ -73,7 +75,7 @@ class RegisterScreen extends StatelessWidget {
                 hintText: 'label.password'.tr(),
                 obscureText: true,
               ),
-              const SizedBox(height: AppSize.sp10),
+              const SizedBox(height: AppSize.sp20),
 
               // MARK: re-Pass
               CustomLabel(text: 'label.rePassword'.tr()),
@@ -83,7 +85,7 @@ class RegisterScreen extends StatelessWidget {
                 hintText: 'label.rePassword'.tr(),
                 obscureText: true,
               ),
-              const SizedBox(height: AppSize.sp20),
+              const SizedBox(height: AppSize.sp30),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -138,33 +140,6 @@ class RegisterScreen extends StatelessWidget {
                           color: AppTheme.button,
                         );
                       },
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppSize.sp20),
-
-              // MARK: -- OR --
-              Row(
-                children: [
-                  Expanded(
-                    child: Divider(
-                      color: AppTheme.grey,
-                      thickness: AppSize.sp2,
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: AppSize.sp8),
-                    child: Text(
-                      'text.or'.tr(),
-                      style: TextStyle(fontSize: AppSize.sp16),
-                    ),
-                  ),
-                  Expanded(
-                    child: Divider(
-                      color: AppTheme.grey,
-                      thickness: AppSize.sp2,
                     ),
                   ),
                 ],

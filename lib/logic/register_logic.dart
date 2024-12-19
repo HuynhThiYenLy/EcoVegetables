@@ -128,7 +128,10 @@ static void handleRegister({
           if (state is RegisterSuccess) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const VerifyOTPScreen()),
+              MaterialPageRoute(
+                builder: (context) =>
+                    VerifyOTPScreen(email: email), 
+              ),
             );
           } else if (state is RegisterFailure) {
             ScaffoldMessenger.of(context).showSnackBar(

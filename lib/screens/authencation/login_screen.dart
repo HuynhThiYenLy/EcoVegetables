@@ -1,6 +1,6 @@
 import 'package:ecovegetables_app/bloc/login/login_state.dart';
 import 'package:ecovegetables_app/logic/login_logic.dart';
-import 'package:ecovegetables_app/screens/authencation/verifyOTP_screen.dart';
+import 'package:ecovegetables_app/styles/app_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ecovegetables_app/bloc/login/login_bloc.dart';
@@ -27,6 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  bool isPasswordVisible = false; // kiểm soát trạng thái mật khẩu
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -52,9 +54,25 @@ class _LoginScreenState extends State<LoginScreen> {
             CustomTextField(
               controller: passwordController,
               hintText: 'Vui lòng nhập mật khẩu',
-              obscureText: true,
+              obscureText: !isPasswordVisible,
               validator: LoginScreenLogic.validatePassword,
+              suffixIcon: IconButton(
+                icon: SizedBox(
+                  width: AppSize.sp24,
+                  height: AppSize.sp24,
+                  child: Image.network(
+                    isPasswordVisible ? AppImage.eye_hien : AppImage.eye_an,
+                    fit: BoxFit.contain, 
+                  ),
+                ),
+                onPressed: () {
+                  setState(() {
+                    isPasswordVisible = !isPasswordVisible;
+                  });
+                },
+              ),
             ),
+
             const SizedBox(height: AppSize.sp10),
 
             // MARK: forgotPass btn
@@ -146,6 +164,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ],
+            ),
+            const SizedBox(height: AppSize.sp20),
+
+// MARK: login GG
+            CustomElevatedButton(
+              text: 'button.loginGG'.tr(),
+              icon: AppImage.icon_gg,
+              onPressed: () {
+                print("Đang login with gg...");
+              },
+              color: AppTheme.white,
+              textColor: AppTheme.text,
+              border:
+                  BorderSide(color: AppTheme.borderColor, width: AppSize.sp2),
             ),
           ],
         ),

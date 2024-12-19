@@ -9,6 +9,7 @@ class AppSize {
   static const double sp18 = 18.0;
   static const double sp20 = 20.0;
   static const double sp24 = 24.0;
+  static const double sp25 = 25.0;
   static const double sp28 = 28.0;
   static const double sp30 = 30.0;
   static const double sp32 = 32.0;

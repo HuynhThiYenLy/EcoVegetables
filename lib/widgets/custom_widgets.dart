@@ -10,6 +10,7 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final bool obscureText;
   final String? Function(String?)? validator;
+  final Widget? suffixIcon;
 
   const CustomTextField({
     Key? key,
@@ -17,6 +18,7 @@ class CustomTextField extends StatelessWidget {
     required this.hintText,
     this.obscureText = false,
     this.validator,
+    this.suffixIcon, 
   }) : super(key: key);
 
   @override
@@ -39,6 +41,7 @@ class CustomTextField extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSize.sp12),
         ),
+        suffixIcon: suffixIcon, 
       ),
       validator: validator,
     );
@@ -50,31 +53,51 @@ class CustomElevatedButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final Color? color;
+  final Color? textColor;
+  final BorderSide? border;
+  final String? icon; // Sửa thành String để lưu đường dẫn ảnh
 
   const CustomElevatedButton({
     Key? key,
     required this.text,
     required this.onPressed,
     this.color,
+    this.textColor,
+    this.border,
+    this.icon,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: AppSize.sp16,
-          color: AppTheme.textButton,
-        ),
-      ),
       style: ElevatedButton.styleFrom(
         backgroundColor: color ?? AppTheme.button,
         padding: EdgeInsets.symmetric(vertical: AppSize.sp16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSize.sp12),
+          side: border ?? BorderSide.none,
         ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon != null) ...[
+            Image.network(
+              icon!,
+              width: AppSize.sp20,
+              height: AppSize.sp20,
+            ),
+            SizedBox(width: AppSize.sp14),
+          ],
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: AppSize.sp16,
+              color: textColor ?? AppTheme.textButton,
+            ),
+          ),
+        ],
       ),
     );
   }

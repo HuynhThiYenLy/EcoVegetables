@@ -16,6 +16,7 @@ class AppTheme {
   static const Color text = Colors.black;
   static const Color green = Color(0xFF007B08);
   static const Color grey = Colors.grey;
+  static const Color white = Color(0xFFFFFFFF);
 
   // /// Theme sáng (Light Theme)
   // static ThemeData lightTheme() {

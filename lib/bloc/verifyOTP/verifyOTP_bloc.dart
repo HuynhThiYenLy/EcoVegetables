@@ -12,31 +12,21 @@ class VerifyOTPBloc extends Bloc<VerifyOTPEvent, VerifyOTPState> {
 
   Future<void> _onVerifyOTPButtonPressed(
       VerifyOTPButtonPressed event, Emitter<VerifyOTPState> emit) async {
-    print("VerifyOTPBloc: Received event - VerifyOTPButtonPressed");
-    print("VerifyOTPBloc: email = ${event.email}, otp = ${event.otp}");
-
-    emit(VerifyOTPLoading());
-    print("VerifyOTPBloc: State changed to VerifyOTPLoading");
+    emit(VerifyOTPLoading()); // Đổi state sang loading khi bắt đầu xử lý
 
     try {
       final response = await _verifyOTP(event.email, event.otp);
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        print("VerifyOTPBloc: Server response = ${response.body}");
-        emit(VerifyOTPSuccess());
-        print("VerifyOTPBloc: State changed to VerifyOTPSuccess");
+        emit(VerifyOTPSuccess()); // Thành công
       } else {
         final errorData = json.decode(response.body);
         final errorMessage =
             errorData['message'] ?? 'Đã xảy ra lỗi trong quá trình đăng ký';
-        print("VerifyOTPBloc: Server error response = $errorMessage");
-
-        emit(VerifyOTPFailure(error: errorMessage));
-        print("VerifyOTPBloc: State changed to VerifyOTPFailure");
+        emit(VerifyOTPFailure(error: errorMessage)); // Lỗi từ server
       }
     } catch (e) {
-      print("VerifyOTPBloc: Exception occurred - $e");
       emit(VerifyOTPFailure(error: 'Có lỗi xảy ra, vui lòng thử lại sau.'));
     }
   }
@@ -45,10 +35,7 @@ class VerifyOTPBloc extends Bloc<VerifyOTPEvent, VerifyOTPState> {
     return http.post(
       Uri.parse('${ApiConstants.baseUrl}${ApiConstants.verifyOTPEndpoint}'),
       headers: {'Content-Type': 'application/json'},
-      body: json.encode({
-        'email': email,
-        'otp': otp
-      }),
+      body: json.encode({'email': email, 'otp': otp}),
     );
   }
 }

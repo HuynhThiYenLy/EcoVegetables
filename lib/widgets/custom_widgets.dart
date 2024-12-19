@@ -18,7 +18,7 @@ class CustomTextField extends StatelessWidget {
     required this.hintText,
     this.obscureText = false,
     this.validator,
-    this.suffixIcon, 
+    this.suffixIcon,
   }) : super(key: key);
 
   @override
@@ -41,7 +41,7 @@ class CustomTextField extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSize.sp12),
         ),
-        suffixIcon: suffixIcon, 
+        suffixIcon: suffixIcon,
       ),
       validator: validator,
     );

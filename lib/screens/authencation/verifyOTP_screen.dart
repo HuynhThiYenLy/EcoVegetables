@@ -1,23 +1,60 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:ecovegetables_app/logic/verifyOTP_logic.dart';
 import 'package:ecovegetables_app/styles/app_size.dart';
 import 'package:ecovegetables_app/styles/app_theme.dart';
 import 'package:ecovegetables_app/widgets/custom_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:ecovegetables_app/styles/app_image.dart';
 
+typedef OnChangedCallback = void Function(String value, int index);
+
+class OTPInputField extends StatelessWidget {
+  final int length;
+  final OnChangedCallback onChanged;
+
+  const OTPInputField({Key? key, required this.length, required this.onChanged})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: List.generate(length, (index) {
+        return SizedBox(
+          width: 40,
+          child: TextField(
+            maxLength: 1,
+            textAlign: TextAlign.center,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(counterText: ''),
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                onChanged(value, index); // Trả về giá trị và vị trí
+              }
+            },
+          ),
+        );
+      }),
+    );
+  }
+}
+
 class VerifyOTPScreen extends StatelessWidget {
-  // MARK: nhận Email
   final String email;
 
   const VerifyOTPScreen({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
-    final List<String> otpValues =
-        List.filled(6, ''); // Dữ liệu lưu trữ các ô OTP
+    final otpLogic = VerifyOTPLogic(email: email, context: context);
 
-    void handleOTPChange(String value) {
-      print('Giá trị OTP nhập: $value');
+    // Dữ liệu lưu trữ các ô OTP
+    final List<String> otpValues = List.filled(6, '');
+
+    // Hàm theo dõi sự thay đổi của mỗi ô OTP
+    void handleOTPChange(String value, int index) {
+      otpValues[index] = value; // Cập nhật giá trị OTP tại vị trí index
+      print('Giá trị OTP nhập: $value tại vị trí $index');
     }
 
     return Scaffold(
@@ -37,7 +74,6 @@ class VerifyOTPScreen extends StatelessWidget {
               width: AppSize.sp200,
               height: AppSize.sp200,
             ),
-
             Text(
               'text.otpVerify'.tr(),
               textAlign: TextAlign.center,
@@ -57,15 +93,18 @@ class VerifyOTPScreen extends StatelessWidget {
             // MARK: nhập OTP
             OTPInputField(
               length: 6,
-              onChanged: handleOTPChange,
+              onChanged: (value, index) {
+                handleOTPChange(value, index);
+              },
             ),
+
             const SizedBox(height: AppSize.sp40),
 
             // MARK: xác minh OTP
             CustomElevatedButton(
               text: 'button.otpVerify'.tr(),
               onPressed: () {
-                print("Đang xác nhận OTP cho email: $email");
+                otpLogic.verifyOTP(otpValues);
               },
               color: AppTheme.button,
             ),
@@ -77,7 +116,7 @@ class VerifyOTPScreen extends StatelessWidget {
               child: CustomTextButton(
                 text: 'buttonText.reSent'.tr(),
                 onPressed: () {
-                  print("Gửi lại mã OTP cho email: $email");
+                  otpLogic.resendOTP();
                 },
               ),
             ),

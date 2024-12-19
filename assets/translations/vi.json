@@ -23,6 +23,7 @@
   },
   "text": {
     "or": " Hoặc ",
-    "otpVerify": "Nhập mã OTP được gửi đến email của bạn"
+    "otpVerify": "Nhập mã OTP được gửi đến email của bạn",
+    "noti_thanhcong": "Thông báo"
   }
 }

@@ -1,9 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecovegetables_app/bloc/register/register_bloc.dart';
 import 'package:ecovegetables_app/bloc/register/register_event.dart';
 import 'package:ecovegetables_app/bloc/register/register_state.dart';
 import 'package:ecovegetables_app/screens/authencation/verifyOTP_screen.dart';
+import 'package:ecovegetables_app/styles/app_image.dart';
+import 'package:ecovegetables_app/styles/app_size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:flutter/material.dart';
 
 class RegisterScreenLogic {
   // MARK: check nhập
@@ -82,8 +87,8 @@ class RegisterScreenLogic {
     print("RegisterScreenLogic: Form reset and fields cleared");
   }
 
-// MARK: logic Register
-static void handleRegister({
+  // MARK: logic Register
+  static void handleRegister({
     required GlobalKey<FormState> formKey,
     required TextEditingController fullnameController,
     required TextEditingController emailController,
@@ -126,13 +131,8 @@ static void handleRegister({
 
         bloc.stream.listen((state) {
           if (state is RegisterSuccess) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    VerifyOTPScreen(email: email), 
-              ),
-            );
+            // Hiển thị popup khi đăng ký thành công
+            _showSuccessDialog(context, email);
           } else if (state is RegisterFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error)),
@@ -152,7 +152,52 @@ static void handleRegister({
     }
   }
 
-// MARK: listen status
+  // MARK: PopUp
+  static void _showSuccessDialog(BuildContext context, String email) {
+    showDialog(
+      context: context,
+      barrierDismissible: true, // Cho phép đóng popup khi bấm ngoài
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const SizedBox(height: AppSize.sp20),
+              Row(
+                children: [
+                  Image.network(
+                    AppImage.tich_true,
+                    width: AppSize.sp25,
+                    height: AppSize.sp25,
+                  ),
+                  const SizedBox(width: AppSize.sp10),
+                  Text(
+                    'text.noti_thanhcong'.tr(),
+                    style: const TextStyle(
+                        fontSize: AppSize.sp18, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppSize.sp20),
+              Text(
+                'OTP đã được gửi về email\n$email',
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        );
+      },
+    ).then((_) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VerifyOTPScreen(email: email),
+        ),
+      );
+    });
+  }
+
+  // MARK: listen status
   static void handleBlocListener({
     required BuildContext context,
     required RegisterState state,
@@ -169,7 +214,7 @@ static void handleRegister({
     }
   }
 
-// MARK: check loading
+  // MARK: check loading
   static Widget handleLoadingState() {
     return const Center(child: CircularProgressIndicator());
   }
